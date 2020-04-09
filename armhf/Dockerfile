@@ -2,7 +2,8 @@ FROM balenalib/armv7hf-debian:stretch-run
 
 # Build environment variables
 ENV TINI_VERSION=0.18.0 \
-    DECONZ_VERSION=2.05.67
+#    DECONZ_VERSION=2.05.67-qt5
+    DECONZ_VERSION=latest-beta
 
 # Runtime environment variables
 ENV DECONZ_WEB_PORT=80 \
@@ -55,7 +56,7 @@ RUN chmod +x /tini && \
     chmod +x /firmware-update.sh
 
 # Add deCONZ, install deCONZ, make OTAU dir
-ADD https://www.dresden-elektronik.de/rpi/deconz/beta/deconz-${DECONZ_VERSION}-qt5.deb /deconz.deb
+ADD https://www.dresden-elektronik.de/rpi/deconz/beta/deconz-${DECONZ_VERSION}.deb /deconz.deb
 RUN dpkg -i /deconz.deb && \
     rm -f /deconz.deb && \
     mkdir /root/otau && \
