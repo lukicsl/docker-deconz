@@ -2,8 +2,7 @@ FROM balenalib/armv7hf-debian:stretch-run
 
 # Build environment variables
 ENV TINI_VERSION=0.18.0 \
-#    DECONZ_VERSION=2.05.67-qt5
-    DECONZ_VERSION=latest-beta
+    DECONZ_VERSION=2.05.75
 
 # Runtime environment variables
 ENV DECONZ_WEB_PORT=80 \
@@ -56,11 +55,13 @@ RUN chmod +x /tini && \
     chmod +x /firmware-update.sh
 
 # Add deCONZ, install deCONZ, make OTAU dir
-ADD http://deconz.dresden-elektronik.de/raspbian/beta/deconz-${DECONZ_VERSION}.deb /deconz.deb
+ADD http://deconz.dresden-elektronik.de/raspbian/beta/deconz-${DECONZ_VERSION}-qt5.deb /deconz.deb
 RUN dpkg -i /deconz.deb && \
     rm -f /deconz.deb && \
     mkdir /root/otau && \
     chown root:root /usr/bin/deCONZ*
+    
+COPY libde_rest_plugin.so /usr/share/deCONZ/plugins
 
 VOLUME [ "/root/.local/share/dresden-elektronik/deCONZ" ]
 
